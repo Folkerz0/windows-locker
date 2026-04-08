@@ -36,7 +36,7 @@ void CreateStartupShortcut() {
     wchar_t startupPath[MAX_PATH];
     SHGetFolderPathW(NULL, CSIDL_STARTUP, NULL, 0, startupPath);
     wchar_t shortcutPath[MAX_PATH];
-    swprintf_s(shortcutPath, MAX_PATH, L"%s\\SystemLock.lnk", startupPath);
+    swprintf(shortcutPath, L"%s\\SystemLock.lnk", startupPath);  // FIXED: swprintf instead of swprintf_s
     if (GetFileAttributesW(shortcutPath) != INVALID_FILE_ATTRIBUTES) return;
     
     CoInitialize(NULL);
@@ -129,7 +129,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
             
             RECT rect;
             GetClientRect(hwnd, &rect);
-            HBRUSH hBrush = CreateSolidBrush(RGB(204, 0, 0));
+            HBRUSH hBrush = CreateSolidBrush(RGB(204, 0, 0));  // FIXED: Create red brush manually
             FillRect(hdc, &rect, hBrush);
             DeleteObject(hBrush);
             
@@ -203,7 +203,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     wc.lpfnWndProc = WndProc;
     wc.hInstance = hInstance;
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-    wc.hbrBackground = (HBRUSH)GetStockObject(RED_BRUSH);
+    wc.hbrBackground = CreateSolidBrush(RGB(204, 0, 0));  // FIXED: Create brush instead of RED_BRUSH
     wc.lpszClassName = WINDOW_CLASS;
     RegisterClassExW(&wc);
     
