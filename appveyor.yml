@@ -1,0 +1,11 @@
+version: 1.0.{build}
+image: Visual Studio 2022
+
+build_script:
+  - cl /O2 /Os /GL /GS- /GR- /EHsc /W3 /nologo /MT /Fe:LockScreen.exe ultra_fast_locker.cpp user32.lib gdi32.lib shell32.lib ole32.lib gdiplus.lib winmm.lib shlwapi.lib uuid.lib
+
+artifacts:
+  - path: LockScreen.exe
+    name: LockScreen
+
+deploy: off
